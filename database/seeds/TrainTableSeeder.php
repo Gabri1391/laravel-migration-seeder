@@ -2,6 +2,7 @@
 
 use App\Models\Train;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
 
 class TrainTableSeeder extends Seeder
 {
@@ -10,21 +11,28 @@ class TrainTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-        //creo una nuova variabile
-        $new_train = new Train();
-        $new_train->company = 'Italo';
-        $new_train->departure = 'Milano';
-        $new_train->arrival = 'Palermo';
-        $new_train->departure_time = 12.00;
-        $new_train->arrival_time = 16.30;
-        $new_train->reference = 'AJ0405MIPA91';
-        $new_train->carriages = 20;
-        $new_train->delay = 0;
-        $new_train->is_deleted = false;
-        $new_train->price = 65.50;
 
-        $new_train->save();
+       for($i = 0; $i < 5; $i++){
+        //creo una nuova variabile
+        $train = new Train();
+        
+        $train->company = $faker->company();
+        $train->departure = $faker->city();
+        $train->arrival = $faker->city();
+        $train->departure_time = $faker->date('Y-m-d H:i');
+        $train->arrival_time = $faker->date('Y-m-d H:i');
+        $train->reference = $faker->isbn10();
+        $train->carriages = $faker->numberBetween(1, 30);
+        $train->delay = $faker->numberBetween(0, 360);
+        $train->is_deleted = $faker->boolean();
+        $train->price = $faker->numberBetween(1, 100);
+
+        $train->save();
+
+       }
+
+
     }
 }
